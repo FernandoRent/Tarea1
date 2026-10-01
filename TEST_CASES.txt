@@ -1,0 +1,402 @@
+===============================================================================
+ TAREA 1 - CASOS DE PRUEBA (TEST CASES)
+ Estructuras: Stack (LIFO), Queue (FIFO), Dictionary (orden de insercion)
+===============================================================================
+
+Herramientas : C++17, GoogleTest 1.15.2, CTest
+Compilador   : g++ 10.3.0 (TDM-GCC), flags -Wall -Wextra -Wpedantic, sin warnings
+Archivos     : tests/test_stack.cpp, tests/test_queue.cpp, tests/test_dictionary.cpp
+Fecha        : 2026-10-01
+
+Como correrlas (desde la carpeta Tarea1):
+    cmake -S . -B build -G "MinGW Makefiles"
+    cmake --build build
+    ctest --test-dir build --output-on-failure
+
+Cada prueba en el codigo lleva su ID en el nombre, por ejemplo:
+    TEST(StackTest, S03_PopReturnsInLifoOrder)
+
+Tipos de caso:
+    [N] Normal  - uso comun de la estructura
+    [B] Borde   - vacia, un elemento, 10,000 elementos, tipos especiales
+    [E] Error   - operacion invalida; se espera una excepcion (EXPECT_THROW)
+
+RESUMEN
+-------------------------------------------------------------------------------
+    Estructura    Pruebas   Pasaron   Fallaron
+    Stack            15        15         0
+    Queue            16        16         0
+    Dictionary       24        24         0
+    TOTAL            55        55         0       (100% tests passed out of 55)
+-------------------------------------------------------------------------------
+
+
+===============================================================================
+ STACK (pila LIFO) - S01 a S15
+===============================================================================
+
+S01  NewStackIsEmpty  [B]
+     Descripcion : Una pila recien creada esta vacia.
+     Pasos       : Crear Stack<int>.
+     Esperado    : isEmpty() = true, size() = 0.
+     Obtenido    : PASO
+
+S02  PushThenPeek  [N]
+     Descripcion : peek muestra el ultimo elemento agregado.
+     Pasos       : push(10), push(20), peek().
+     Esperado    : peek() = 20, size() = 2, isEmpty() = false.
+     Obtenido    : PASO
+
+S03  PopReturnsInLifoOrder  [N]
+     Descripcion : pop saca en orden inverso al de entrada.
+     Pasos       : push(1), push(2), push(3), pop() x3.
+     Esperado    : 3, 2, 1; al final la pila queda vacia.
+     Obtenido    : PASO
+
+S04  PopOnEmptyThrows  [E]
+     Descripcion : pop sobre pila vacia es invalido.
+     Pasos       : Crear pila vacia, pop().
+     Esperado    : Lanza EmptyStackException.
+     Obtenido    : PASO
+
+S05  PeekOnEmptyThrows  [E]
+     Descripcion : peek sobre pila vacia es invalido (version normal y const).
+     Pasos       : Pila vacia: peek() y peek() desde referencia const.
+     Esperado    : Ambas lanzan EmptyStackException.
+     Obtenido    : PASO
+
+S06  SingleElement  [B]
+     Descripcion : Pila con un solo elemento.
+     Pasos       : push(7), peek(), pop(), pop().
+     Esperado    : size 1, peek 7, pop 7, queda vacia; el segundo pop lanza
+                   EmptyStackException.
+     Obtenido    : PASO
+
+S07  PeekAllowsModifyingTop  [N]
+     Descripcion : peek (no const) regresa referencia modificable al tope.
+     Pasos       : push(1), push(2), peek() = 99, pop() x2.
+     Esperado    : 99, 1.
+     Obtenido    : PASO
+
+S08  ConstPeek  [N]
+     Descripcion : peek funciona sobre una pila const.
+     Pasos       : push(5); desde referencia const: peek(), size().
+     Esperado    : peek() = 5, size() = 1.
+     Obtenido    : PASO
+
+S09  ClearEmptiesStack  [N]
+     Descripcion : clear vacia la pila; tambien sobre pila ya vacia.
+     Pasos       : clear() en vacia; push(1), push(2), clear(); push(3).
+     Esperado    : Vacia tras cada clear; despues de push(3), peek() = 3.
+     Obtenido    : PASO
+
+S10  IterationTopToBottom  [N]
+     Descripcion : El for de rango recorre del tope al fondo sin modificar.
+     Pasos       : push(1), push(2), push(3); recorrer con for.
+     Esperado    : Recorrido {3, 2, 1}; size() sigue en 3.
+     Obtenido    : PASO
+
+S11  PrintFormat  [N/B]
+     Descripcion : operator<< imprime del tope al fondo.
+     Pasos       : Imprimir vacia; con 7; con 7, 8, 9.
+     Esperado    : "[]", "[7]", "[9, 8, 7]".
+     Obtenido    : PASO
+
+S12  StringsCopyKeepsOriginal  [B]
+     Descripcion : push por copia no altera la variable original (std::string).
+     Pasos       : original = "hola"; push(original); push("mundo"); pop() x2.
+     Esperado    : original sigue "hola"; pops: "mundo", "hola".
+     Obtenido    : PASO
+
+S13  MoveOnlyUniquePtr  [B]
+     Descripcion : Funciona con tipos que solo se pueden mover.
+     Pasos       : Stack<unique_ptr<int>>; push(make_unique(1));
+                   push(std::move(p)) con p -> 2; peek(); pop() x2.
+     Esperado    : p queda nullptr; peek -> 2; pops -> 2, 1.
+     Obtenido    : PASO
+
+S14  TenThousandElements  [B]
+     Descripcion : Volumen grande.
+     Pasos       : push(0..9999); pop() 10,000 veces.
+     Esperado    : size 10000; pops 9999..0 en orden; queda vacia.
+     Obtenido    : PASO
+
+S15  ExceptionIsStructureException  [E]
+     Descripcion : Jerarquia y mensaje de la excepcion.
+     Pasos       : pop() en vacia atrapando como StructureException,
+                   std::runtime_error y EmptyStackException.
+     Esperado    : Se atrapa con las tres; what() = "la pila esta vacia".
+     Obtenido    : PASO
+
+
+===============================================================================
+ QUEUE (fila FIFO) - Q01 a Q16
+===============================================================================
+
+Q01  NewQueueIsEmpty  [B]
+     Descripcion : Una fila recien creada esta vacia.
+     Pasos       : Crear Queue<int>.
+     Esperado    : isEmpty() = true, size() = 0.
+     Obtenido    : PASO
+
+Q02  EnqueueThenFrontAndBack  [N]
+     Descripcion : front es el primero y back el ultimo en entrar.
+     Pasos       : enqueue(10), enqueue(20), enqueue(30).
+     Esperado    : front() = 10, back() = 30, size() = 3.
+     Obtenido    : PASO
+
+Q03  DequeueReturnsInFifoOrder  [N]
+     Descripcion : dequeue saca en el mismo orden de entrada.
+     Pasos       : enqueue(1), enqueue(2), enqueue(3), dequeue() x3.
+     Esperado    : 1, 2, 3; al final la fila queda vacia.
+     Obtenido    : PASO
+
+Q04  DequeueOnEmptyThrows  [E]
+     Descripcion : dequeue sobre fila vacia es invalido.
+     Pasos       : Fila vacia, dequeue().
+     Esperado    : Lanza EmptyQueueException.
+     Obtenido    : PASO
+
+Q05  FrontOnEmptyThrows  [E]
+     Descripcion : front sobre fila vacia (normal y const).
+     Pasos       : Fila vacia: front() y front() desde referencia const.
+     Esperado    : Ambas lanzan EmptyQueueException.
+     Obtenido    : PASO
+
+Q06  BackOnEmptyThrows  [E]
+     Descripcion : back sobre fila vacia (normal y const).
+     Pasos       : Fila vacia: back() y back() desde referencia const.
+     Esperado    : Ambas lanzan EmptyQueueException.
+     Obtenido    : PASO
+
+Q07  SingleElementFrontEqualsBack  [B]
+     Descripcion : Con un elemento, front y back son el mismo.
+     Pasos       : enqueue(7); front(), back(), dequeue(), dequeue().
+     Esperado    : front 7, back 7, dequeue 7, queda vacia; el segundo
+                   dequeue lanza EmptyQueueException.
+     Obtenido    : PASO
+
+Q08  FrontAndBackAllowModification  [N]
+     Descripcion : front/back (no const) regresan referencias modificables.
+     Pasos       : enqueue(1), enqueue(2); front() = 50; back() = 60;
+                   leer desde referencia const.
+     Esperado    : front() = 50, back() = 60.
+     Obtenido    : PASO
+
+Q09  ClearEmptiesQueue  [N]
+     Descripcion : clear vacia la fila; tambien sobre fila ya vacia.
+     Pasos       : clear() en vacia; enqueue(1), enqueue(2), clear(); enqueue(3).
+     Esperado    : Vacia tras cada clear; despues de enqueue(3), front() = 3.
+     Obtenido    : PASO
+
+Q10  IterationFrontToBack  [N]
+     Descripcion : El for de rango recorre del frente al final.
+     Pasos       : enqueue(1), enqueue(2), enqueue(3); recorrer con for.
+     Esperado    : Recorrido {1, 2, 3}; size() sigue en 3.
+     Obtenido    : PASO
+
+Q11  PrintFormat  [N/B]
+     Descripcion : operator<< imprime del frente al final.
+     Pasos       : Imprimir vacia; con 7; con 7, 8, 9.
+     Esperado    : "[]", "[7]", "[7, 8, 9]".
+     Obtenido    : PASO
+
+Q12  StringsCopyKeepsOriginal  [B]
+     Descripcion : enqueue por copia no altera la variable original.
+     Pasos       : original = "hola"; enqueue(original); enqueue("mundo");
+                   dequeue() x2.
+     Esperado    : original sigue "hola"; dequeues: "hola", "mundo".
+     Obtenido    : PASO
+
+Q13  MoveOnlyUniquePtr  [B]
+     Descripcion : Funciona con tipos que solo se pueden mover.
+     Pasos       : Queue<unique_ptr<int>>; enqueue(make_unique(1));
+                   enqueue(std::move(p)) con p -> 2; front(), back(), dequeue() x2.
+     Esperado    : p queda nullptr; front -> 1, back -> 2; dequeues -> 1, 2.
+     Obtenido    : PASO
+
+Q14  TenThousandElements  [B]
+     Descripcion : Volumen grande.
+     Pasos       : enqueue(0..9999); dequeue() 10,000 veces.
+     Esperado    : size 10000, front 0, back 9999; dequeues 0..9999 en
+                   orden; queda vacia.
+     Obtenido    : PASO
+
+Q15  InterleavedEnqueueDequeue  [N]
+     Descripcion : Mezclar entradas y salidas respeta FIFO.
+     Pasos       : enqueue(1), enqueue(2), dequeue(), enqueue(3), dequeue() x2.
+     Esperado    : 1, 2, 3; queda vacia.
+     Obtenido    : PASO
+
+Q16  ExceptionIsStructureException  [E]
+     Descripcion : Jerarquia y mensaje de la excepcion.
+     Pasos       : dequeue() en vacia atrapando como StructureException,
+                   std::runtime_error y EmptyQueueException.
+     Esperado    : Se atrapa con las tres; what() = "la fila esta vacia".
+     Obtenido    : PASO
+
+
+===============================================================================
+ DICTIONARY (orden de insercion) - D01 a D24
+===============================================================================
+
+D01  NewDictionaryIsEmpty  [B]
+     Descripcion : Un diccionario recien creado esta vacio.
+     Pasos       : Crear Dictionary<string,int>; contains("x").
+     Esperado    : isEmpty() = true, size() = 0, contains("x") = false.
+     Obtenido    : PASO
+
+D02  PutThenGet  [N]
+     Descripcion : put inserta y get recupera.
+     Pasos       : put("uno",1), put("dos",2); get de ambas.
+     Esperado    : get("uno") = 1, get("dos") = 2, size() = 2.
+     Obtenido    : PASO
+
+D03  RepeatedKeyUpdatesWithoutGrowing  [B]
+     Descripcion : Llaves repetidas: put actualiza, no duplica.
+     Pasos       : put("x",1), put("x",2), put("x",3).
+     Esperado    : size() = 1, get("x") = 3.
+     Obtenido    : PASO
+
+D04  UpdateKeepsInsertionPosition  [B]
+     Descripcion : Actualizar una llave no cambia su posicion.
+     Pasos       : put z=1, a=2, m=3; put("a",20).
+     Esperado    : keys = {z, a, m}; values = {1, 20, 3}.
+     Obtenido    : PASO
+
+D05  GetMissingKeyThrows  [E]
+     Descripcion : get de llave inexistente (normal y const).
+     Pasos       : put("x",1); get("y") y get("y") desde referencia const.
+     Esperado    : Ambas lanzan KeyNotFoundException.
+     Obtenido    : PASO
+
+D06  GetAllowsModifyingValue  [N]
+     Descripcion : get (no const) regresa referencia modificable.
+     Pasos       : put("x",1); get("x") = 100.
+     Esperado    : get("x") = 100.
+     Obtenido    : PASO
+
+D07  GetOrReturnsDefaultWithoutInserting  [N/B]
+     Descripcion : getOr regresa el valor o el default, sin insertar.
+     Pasos       : put("x",1); getOr("x",-1); getOr("y",-1).
+     Esperado    : 1 y -1; contains("y") = false; size() = 1.
+     Obtenido    : PASO
+
+D08  ContainsReflectsPutAndRemove  [N]
+     Descripcion : contains sigue los cambios de put y remove.
+     Pasos       : contains("x"); put("x",1); contains; remove("x"); contains.
+     Esperado    : false, true, false.
+     Obtenido    : PASO
+
+D09  RemoveReturnsWhetherKeyExisted  [N/E]
+     Descripcion : remove regresa true si borro y false si no existia.
+     Pasos       : put a, b, c; remove("b") x2; remove("nunca"); get("b").
+     Esperado    : true, false, false; size 2; keys {a, c};
+                   get("b") lanza KeyNotFoundException.
+     Obtenido    : PASO
+
+D10  RemoveThenReinsertGoesToEnd  [B]
+     Descripcion : Borrar y reinsertar manda la llave al final.
+     Pasos       : put a, b, c; remove("a"); put("a",10).
+     Esperado    : keys = {b, c, a}; get("a") = 10.
+     Obtenido    : PASO
+
+D11  BracketInsertsDefaultValue  [N]
+     Descripcion : operator[] con llave nueva la inserta con V() (como std::map).
+     Pasos       : d["nuevo"]; d["contador"] += 5 dos veces.
+     Esperado    : d["nuevo"] = 0 y existe; get("contador") = 10;
+                   keys = {nuevo, contador}.
+     Obtenido    : PASO
+
+D12  BracketOnExistingKeyDoesNotInsert  [N]
+     Descripcion : operator[] con llave existente solo accede.
+     Pasos       : put("x",1); d["x"] = 7.
+     Esperado    : size() = 1, get("x") = 7.
+     Obtenido    : PASO
+
+D13  KeysValuesItemsInInsertionOrder  [N]
+     Descripcion : keys, values e items respetan el orden de insercion.
+     Pasos       : put z=26, a=1, m=13.
+     Esperado    : keys {z, a, m}; values {26, 1, 13};
+                   items {(z,26), (a,1), (m,13)}.
+     Obtenido    : PASO
+
+D14  SortedItemsOrdersByKey  [N]
+     Descripcion : sortedItems ordena por llave sin alterar el original.
+     Pasos       : put z=26, a=1, m=13; sortedItems(); keys().
+     Esperado    : {(a,1), (m,13), (z,26)}; keys sigue {z, a, m}.
+     Obtenido    : PASO
+
+D15  IterationInInsertionOrderAndModifyValues  [N]
+     Descripcion : El for recorre en orden de insercion y puede cambiar valores.
+     Pasos       : put b=2, a=1; recorrer guardando llaves y valor *= 10.
+     Esperado    : Llaves {b, a}; get("b") = 20, get("a") = 10.
+     Obtenido    : PASO
+
+D16  PrintFormat  [N/B]
+     Descripcion : operator<< imprime en orden de insercion.
+     Pasos       : Imprimir vacio; con x=1; con x=1, y=2.
+     Esperado    : "{}", "{x: 1}", "{x: 1, y: 2}".
+     Obtenido    : PASO
+
+D17  ClearEmptiesDictionary  [N]
+     Descripcion : clear vacia lista e indice.
+     Pasos       : put a, b; clear(); contains("a"); get("a"); put("c",3).
+     Esperado    : Vacio; contains false; get lanza KeyNotFoundException;
+                   despues keys = {c}.
+     Obtenido    : PASO
+
+D18  SingleElement  [B]
+     Descripcion : Un elemento, con llaves int y valores string.
+     Pasos       : Dictionary<int,string>; put(1,"uno"); get(1); remove(1).
+     Esperado    : size 1; get(1) = "uno"; remove true; queda vacio.
+     Obtenido    : PASO
+
+D19  CopyIsIndependent  [B]
+     Descripcion : La copia no comparte datos con el original.
+     Pasos       : original {a:1, b:2}; copia(original); en la copia:
+                   put("a",100), remove("b"), put("c",3).
+     Esperado    : original {a:1, b:2}; copia {a:100, c:3}.
+     Obtenido    : PASO
+
+D20  CopyAssignmentIsIndependent  [B]
+     Descripcion : Asignacion por copia independiente; auto-asignacion segura.
+     Pasos       : destino {viejo:0}; destino = original {a:1};
+                   destino.put("a",50); destino = destino.
+     Esperado    : original.get("a") = 1; destino {a:50} antes y despues
+                   de la auto-asignacion.
+     Obtenido    : PASO
+
+D21  MoveLeavesSourceEmpty  [B]
+     Descripcion : Mover (constructor y asignacion) deja vacio el origen y el
+                   destino sigue funcionando.
+     Pasos       : movido(std::move(fuente)); movido.remove("a");
+                   asignado = std::move(movido).
+     Esperado    : fuente vacia; movido {a:1, b:2} y luego keys {b};
+                   movido vacio; asignado {b:2}.
+     Obtenido    : PASO
+
+D22  MoveOnlyValues  [B]
+     Descripcion : Valores que solo se pueden mover (unique_ptr).
+     Pasos       : put(1, make_unique(10)); put(2, std::move(p)) con p -> 20;
+                   put(1, make_unique(11)).
+     Esperado    : p queda nullptr; size 2; *get(1) = 11; *get(2) = 20.
+     Obtenido    : PASO
+
+D23  TenThousandElements  [B]
+     Descripcion : Volumen grande con borrados en medio.
+     Pasos       : put(i, i*i) para i = 0..9999; remove de todos los pares.
+     Esperado    : size 10000 y luego 5000; recorrido = impares 1, 3, ...
+                   en orden, con valor i*i.
+     Obtenido    : PASO
+
+D24  ExceptionIsStructureException  [E]
+     Descripcion : Jerarquia y mensaje de la excepcion.
+     Pasos       : get("x") en vacio atrapando como StructureException,
+                   std::runtime_error y KeyNotFoundException.
+     Esperado    : Se atrapa con las tres; what() = "llave no encontrada".
+     Obtenido    : PASO
+
+===============================================================================
+ Fin del documento
+===============================================================================

@@ -1,0 +1,20 @@
+# Carpeta donde CMake compila todo
+build/
+
+# Ejecutables y binarios
+*.exe
+*.o
+*.obj
+*.a
+*.lib
+*.dll
+
+# Archivos que genera CMake si alguien configura fuera de build/
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+CTestTestfile.cmake
+Makefile
+
+# Configuración local del editor
+.vscode/
