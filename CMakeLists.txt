@@ -39,3 +39,6 @@ target_compile_options(tests PRIVATE -Wall -Wextra -Wpedantic)
 endif()
 include(GoogleTest)
 gtest_discover_tests(tests)
+
+# Tarea 2: generador de cuadruplos con Flex/Bison (reutiliza structures)
+add_subdirectory(Tarea2)
