@@ -1,0 +1,23 @@
+program completo;
+var a, b : int;
+    f : float;
+
+void muestra(n : int) [
+    {
+        while (n > 0) do [
+            print(n);
+            n = n - 1;
+        ] ;
+    }
+];
+
+main {
+    read(a);
+    b = (a + 2) * 3 - -1;
+    if (b > 10) [
+        muestra(b);
+        f = b / 2.0;
+    ] else print("x"); ;
+    print("f", f);
+}
+end

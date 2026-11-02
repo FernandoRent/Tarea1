@@ -42,3 +42,6 @@ gtest_discover_tests(tests)
 
 # Tarea 2: generador de cuadruplos con Flex/Bison (reutiliza structures)
 add_subdirectory(Tarea2)
+
+# Tarea 3: scanner y parser de BabyDuck con Flex/Bison
+add_subdirectory(Tarea3)

@@ -1,0 +1,8 @@
+program entradasalida;
+var a : int;
+main {
+    read(a);
+    print(a);
+    print("a", a + 1, "b");
+}
+end

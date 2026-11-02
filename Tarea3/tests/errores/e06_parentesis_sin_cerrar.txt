@@ -1,0 +1,6 @@
+program parentesis;
+var a : int;
+main {
+    a = (3 + 4;
+}
+end
