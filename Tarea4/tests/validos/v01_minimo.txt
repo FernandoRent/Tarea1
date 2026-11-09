@@ -1,0 +1,4 @@
+program minimo;
+main {
+}
+end

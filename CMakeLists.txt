@@ -45,3 +45,6 @@ add_subdirectory(Tarea2)
 
 # Tarea 3: scanner y parser de BabyDuck con Flex/Bison
 add_subdirectory(Tarea3)
+
+# Tarea 4: semantica de BabyDuck (cubo, directorio de funciones)
+add_subdirectory(Tarea4)

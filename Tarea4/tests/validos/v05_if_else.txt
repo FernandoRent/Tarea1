@@ -1,0 +1,9 @@
+program condiciones;
+var a, b : int;
+main {
+    a = 5;
+    if (a > 3) b = 1; ;
+    if (a != b) b = 2; else b = 3; ;
+    if (a < b) [ a = 0; b = 0; ] ;
+}
+end

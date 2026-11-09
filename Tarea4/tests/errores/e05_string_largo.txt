@@ -1,0 +1,5 @@
+program cadena;
+main {
+    print("hola");
+}
+end
