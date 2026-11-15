@@ -1,0 +1,11 @@
+program expresiones;
+var a : int;
+    b : float;
+    r : float;
+main {
+    a = 3 + 4 * 2;
+    b = (a - 1) / 2;
+    r = -a + +b * (3.5 - 1.25);
+    a = -7;
+}
+end

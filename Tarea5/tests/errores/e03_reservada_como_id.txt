@@ -1,0 +1,5 @@
+program reservada;
+var if : int;
+main {
+}
+end

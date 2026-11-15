@@ -48,3 +48,6 @@ add_subdirectory(Tarea3)
 
 # Tarea 4: semantica de BabyDuck (cubo, directorio de funciones)
 add_subdirectory(Tarea4)
+
+# Tarea 5: pilas y fila de cuadruplos (expresiones y estatutos lineales)
+add_subdirectory(Tarea5)

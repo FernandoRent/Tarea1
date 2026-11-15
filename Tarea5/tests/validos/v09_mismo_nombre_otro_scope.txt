@@ -1,0 +1,10 @@
+program p;
+var x : int;
+void f(x : float) [
+    var y : int;
+    { y = 1; }
+];
+main {
+    x = 2;
+}
+end

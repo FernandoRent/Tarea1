@@ -1,0 +1,13 @@
+program cuadruplos;
+var a, b, c : int;
+    x, y : float;
+main {
+    read(a);
+    read(b);
+    c = a + b * 2 - (a - b) * 3;
+    x = c / 4 + 1.5;
+    y = -x * (a + 2.0);
+    print("r", c, x * 2);
+    if (a + b > c * 2) print(a); ;
+}
+end

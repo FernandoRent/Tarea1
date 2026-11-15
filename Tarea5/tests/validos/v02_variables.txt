@@ -1,0 +1,8 @@
+program variables;
+var a, b, c : int;
+    x : float;
+main {
+    a = 1;
+    x = 2.5;
+}
+end

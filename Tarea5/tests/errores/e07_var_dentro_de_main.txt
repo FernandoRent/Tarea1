@@ -1,0 +1,5 @@
+program varmain;
+main {
+    var x : int;
+}
+end

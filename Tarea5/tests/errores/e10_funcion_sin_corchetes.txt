@@ -1,0 +1,7 @@
+program funcion;
+void f() {
+    print(1);
+};
+main {
+}
+end

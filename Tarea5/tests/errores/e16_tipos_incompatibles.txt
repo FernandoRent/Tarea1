@@ -1,0 +1,6 @@
+program p;
+var a, b : int;
+main {
+    a = (a > b) + 1;
+}
+end
