@@ -1,0 +1,7 @@
+program malo;
+var r : int;
+void nada() [ { print("x"); } ];
+main {
+    r = nada() + 1;
+}
+end

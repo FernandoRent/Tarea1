@@ -1,0 +1,6 @@
+program flotante;
+var x : float;
+main {
+    x = 3.;
+}
+end

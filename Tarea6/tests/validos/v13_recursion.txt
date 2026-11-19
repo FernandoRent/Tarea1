@@ -1,0 +1,20 @@
+program recursivo;
+var r : int;
+
+int fact(n : int) [
+    {
+        if (n < 2) return 1; else return n * fact(n - 1); ;
+    }
+];
+
+int suma(a : int, b : int) [
+    {
+        return a + b;
+    }
+];
+
+main {
+    r = fact(5);
+    print(suma(fact(3), suma(r, 2)));
+}
+end

@@ -1,0 +1,29 @@
+program funciones;
+var r : int;
+
+void saluda() [
+    {
+        print("h");
+    }
+];
+
+int doble(x : int) [
+    var t : int;
+    {
+        t = x * 2;
+        return t;
+    }
+];
+
+float promedio(a : float, b : float) [
+    {
+        return (a + b) / 2.0;
+    }
+];
+
+main {
+    saluda();
+    r = doble(4) + 1;
+    print(promedio(1.5, r));
+}
+end

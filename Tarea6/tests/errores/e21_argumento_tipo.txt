@@ -1,0 +1,7 @@
+program malo;
+var r : int;
+int doble(x : int) [ { return x * 2; } ];
+main {
+    r = doble(2.5);
+}
+end

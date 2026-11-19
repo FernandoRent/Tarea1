@@ -1,0 +1,4 @@
+program p;
+void f(x : int, x : float) [ { } ];
+main { }
+end

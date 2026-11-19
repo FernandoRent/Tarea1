@@ -134,6 +134,33 @@ class Queue{
         }
 
         /**
+         * @brief Acceso al elemento en la posicion i (0 = frente); permite modificarlo.
+         *        Se usa en la Tarea 6 para rellenar los saltos pendientes de la fila.
+         * @param i Posicion del elemento.
+         * @return Referencia al elemento.
+         * @throws StructureException si i esta fuera de rango.
+         * @note Complejidad: O(1).
+         */
+        T& at(std::size_t i) {
+            if (i >= data_.size()) {
+                throw StructureException("Indice fuera de rango en la fila");
+            }
+            return data_[i];
+        }
+
+        /**
+         * @brief Acceso de solo lectura al elemento en la posicion i.
+         * @throws StructureException si i esta fuera de rango.
+         * @note Complejidad: O(1).
+         */
+        const T& at(std::size_t i) const {
+            if (i >= data_.size()) {
+                throw StructureException("Indice fuera de rango en la fila");
+            }
+            return data_[i];
+        }
+
+        /**
          * @brief Inicio del recorrido (el frente).
          * @note Complejidad: O(1).
          */

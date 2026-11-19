@@ -1,0 +1,6 @@
+program invalido;
+var a : int;
+main {
+    a = 5 @;
+}
+end

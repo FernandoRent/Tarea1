@@ -1,0 +1,6 @@
+program malo;
+void nada() [ { return 1; } ];
+main {
+    nada();
+}
+end

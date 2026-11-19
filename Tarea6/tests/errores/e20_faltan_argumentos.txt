@@ -1,0 +1,7 @@
+program malo;
+var r : int;
+int suma(a : int, b : int) [ { return a + b; } ];
+main {
+    r = suma(1);
+}
+end

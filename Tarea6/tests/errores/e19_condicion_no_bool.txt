@@ -1,0 +1,7 @@
+program malo;
+var a : int;
+main {
+    a = 1;
+    if (a + 1) a = 2; ;
+}
+end

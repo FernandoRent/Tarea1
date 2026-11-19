@@ -51,3 +51,6 @@ add_subdirectory(Tarea4)
 
 # Tarea 5: pilas y fila de cuadruplos (expresiones y estatutos lineales)
 add_subdirectory(Tarea5)
+
+# Tarea 6: direcciones virtuales, if/while y funciones
+add_subdirectory(Tarea6)
